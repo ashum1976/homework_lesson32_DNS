@@ -1,0 +1,20 @@
+all:
+  vars:
+    ansible_user: 'vagrant'
+    ansible_ssh_pass: 'vagrant'
+    ansible_host: 127.0.0.1
+
+#Группа openvpn_net (parent), включающая в себя группы clients и servers (children)
+openvpn_net:
+  children:
+      clients:
+      servers:
+servers:
+  hosts:
+    srv01:
+clients:
+  hosts:
+    cln01:
+    cln02:
+    cln03:
+    cln04:
