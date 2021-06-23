@@ -1,0 +1,50 @@
+2021-06-22 23:55:29,688 p=10263 u=andrey n=ansible | @all:
+  |--@dns_net:
+  |  |--@clients:
+  |  |  |--client
+  |  |  |--client2
+  |  |--@servers:
+  |  |  |--ns01
+  |  |  |--ns02
+  |--@ungrouped:
+2021-06-22 23:55:36,686 p=10268 u=andrey n=ansible | @all:
+  |--@dns_net:
+  |  |--@clients:
+  |  |  |--client
+  |  |  |  |--{ansible_host = 127.0.0.1}
+  |  |  |  |--{ansible_ssh_pass = vagrant}
+  |  |  |  |--{ansible_user = vagrant}
+  |  |  |  |--{dnf_install_all = ['mc', 'nano', 'setools-console', 'setroubleshoot-server', 'epel-release', 'chrony', 'iptables-services', 'kbd']}
+  |  |  |  |--{dnf_remove = ['firewalld']}
+  |  |  |  |--{resolve_file = /etc/resolv.conf}
+  |  |  |--client2
+  |  |  |  |--{ansible_host = 127.0.0.1}
+  |  |  |  |--{ansible_ssh_pass = vagrant}
+  |  |  |  |--{ansible_user = vagrant}
+  |  |  |  |--{dnf_install_all = ['mc', 'nano', 'setools-console', 'setroubleshoot-server', 'epel-release', 'chrony', 'iptables-services', 'kbd']}
+  |  |  |  |--{dnf_remove = ['firewalld']}
+  |  |  |  |--{resolve_file = /etc/resolv.conf}
+  |  |--@servers:
+  |  |  |--ns01
+  |  |  |  |--{ansible_host = 127.0.0.1}
+  |  |  |  |--{ansible_ssh_pass = vagrant}
+  |  |  |  |--{ansible_user = vagrant}
+  |  |  |  |--{dnf_install_all = ['mc', 'nano', 'setools-console', 'setroubleshoot-server', 'epel-release', 'bind', 'bind-utils', 'chrony', 'iptables-services', 'kbd']}
+  |  |  |  |--{dnf_remove = ['firewalld']}
+  |  |  |  |--{resolve_file = /etc/resolv.conf}
+  |  |  |--ns02
+  |  |  |  |--{ansible_host = 127.0.0.1}
+  |  |  |  |--{ansible_ssh_pass = vagrant}
+  |  |  |  |--{ansible_user = vagrant}
+  |  |  |  |--{dnf_install_all = ['mc', 'nano', 'setools-console', 'setroubleshoot-server', 'epel-release', 'bind', 'bind-utils', 'chrony', 'iptables-services', 'kbd']}
+  |  |  |  |--{dnf_remove = ['firewalld']}
+  |  |  |  |--{resolve_file = /etc/resolv.conf}
+  |  |  |--{dnf_install_all = ['mc', 'nano', 'setools-console', 'setroubleshoot-server', 'epel-release', 'bind', 'bind-utils', 'chrony', 'iptables-services', 'kbd']}
+  |  |  |--{dnf_remove = ['firewalld']}
+  |  |--{dnf_install_all = ['mc', 'nano', 'setools-console', 'setroubleshoot-server', 'epel-release', 'chrony', 'iptables-services', 'kbd']}
+  |  |--{dnf_remove = ['firewalld']}
+  |  |--{resolve_file = /etc/resolv.conf}
+  |--@ungrouped:
+  |--{ansible_host = 127.0.0.1}
+  |--{ansible_ssh_pass = vagrant}
+  |--{ansible_user = vagrant}

@@ -1,2 +1,7 @@
 ---
 # vars file for ./roles/dns
+all_comp:
+    - ns01
+    - ns02
+    - client
+    - client2

@@ -1,0 +1,9 @@
+---
+
+- name:  'Установка параметров dns  серверов, настройка named, гастройка клиентов для возможности обращения к DNS'
+  hosts:
+    - dns_net
+  become: True
+  gather_facts: True
+  roles:
+    - dns

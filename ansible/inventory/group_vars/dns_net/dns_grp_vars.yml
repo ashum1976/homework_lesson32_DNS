@@ -1,0 +1,17 @@
+dnf_remove:
+      - firewalld
+
+dnf_install_all:
+        - mc
+        - nano
+        - setools-console
+        - setroubleshoot-server
+        - epel-release
+        - bind-utils
+        - chrony
+        - iptables-services
+        - kbd
+
+
+resolve_file: /etc/resolv.conf
+named_stok_path: /var/named/

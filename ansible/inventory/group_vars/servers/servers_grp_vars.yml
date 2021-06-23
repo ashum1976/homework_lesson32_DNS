@@ -1,0 +1,13 @@
+dnf_remove:
+      - firewalld
+dnf_install_all:
+        - mc
+        - nano
+        - setools-console
+        - setroubleshoot-server
+        - epel-release
+        - bind
+        - bind-utils
+        - chrony
+        - iptables-services
+        - kbd

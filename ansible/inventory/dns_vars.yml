@@ -1,0 +1,19 @@
+all:
+  vars:
+    ansible_user: 'vagrant'
+    ansible_ssh_pass: 'vagrant'
+    ansible_host: 127.0.0.1
+
+#Группа dns_net (parent), включающая в себя группы clients и servers (children)
+dns_net:
+    children:
+        clients:
+        servers:
+servers:
+    hosts:
+      ns01:
+      ns02:
+clients:
+    hosts:
+      client:
+      client2:

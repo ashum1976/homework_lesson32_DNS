@@ -1,2 +1,170 @@
 ---
 # tasks file for ./roles/dns
+
+# Установить пакеты, список в переменной "{{ dnf_install_all }}"
+# Общие пакеты для всех серверов
+- name: "Установить пакеты "
+  dnf:
+    name: "{{ dnf_install_all }}"
+    state: present
+    disable_gpg_check:  yes
+  tags:
+    - "{{ all_comp }}"
+
+#Удалить пакеты
+## Общие пакеты для всех серверов
+- name: "Удалить пакеты "
+  dnf:
+    name: "{{ dnf_remove }}"
+    state: absent
+  tags:
+    - "{{ all_comp }}"
+
+#Копирование файлов для конфигурации сервера. Установка зон обслуживания.
+## Установка параметра отключающего использование IPv6, для запуска named через systemd.
+- name: "Add line in file /etc/sysconfig/named"
+  lineinfile:
+    path: /etc/sysconfig/named
+    line: OPTIONS="-4"
+    state:  present
+  tags:
+    - ns01
+    - ns02
+
+## Копирование ключа для возможности передавать зоны
+- name: "Копирование ключа для возможности передачи зон"
+  copy:
+    src:  named.zonetransfer.key
+    dest:  /etc/named.zonetransfer.key
+    owner:  root
+    group:  named
+    mode: 0640
+  tags:
+    - ns01
+    - ns02
+## Копирование RFC1912 выйла зон с правильными путями
+- name: "Копируем файл named.rfc1912.zones"
+  template:
+    src: named.rfc1912.zones.j2
+    dest: /etc/named.rfc1912.zones
+  tags:
+    - "{{all_comp}}"
+## Копирование resolv.conf файла для серверов
+- name: " Копирование resolv.conf файла для серверов"
+  copy:
+    src:  servers-resolv.conf
+    dest: /etc/resolv.conf
+    owner:  root
+    group:  root
+    mode: 0644
+  tags:
+    - ns01
+    - ns02
+
+## Установка нужных прав доступа на каталог /var/named/work
+- name: "Установка прав доступа на каталог"
+  file:
+    path: /etc/named/work
+    state:  directory
+    owner:  named
+    group:  named
+    mode: 0770
+  tags:
+    - ns01
+    - ns02
+
+## Копирование файлов зон, для сервера ns01
+- name: "Копирование файлов зон на сервер"
+  copy:
+    src:  "{{item}}"
+    dest:  /var/named/work/client/
+    owner:  root
+    group:  named
+    mode: 0640
+  with_fileglob:
+          - named.*.client*
+          - named*.lab
+  tags:
+    - ns01
+    - ns02
+
+- name: "Копирование файлов зон на сервер"
+  copy:
+    src:  "{{item}}"
+    dest:  /var/named/work/client2/
+    owner:  root
+    group:  named
+    mode: 0640
+  with_fileglob:
+          - named.*.client2*
+  tags:
+    - ns01
+    - ns02
+
+## Копирование фала конфигурации для сервера ns01
+- name: "Копирование файла конфигурации для ns01 сервера"
+  template:
+    src: master-named.conf.j2
+    dest:  /etc/named.conf
+    owner: root
+    group: named
+    mode: 0640
+  tags:
+    - ns01
+
+## Копирование фала конфигурации для сервера ns02
+- name: "Копирование файла конфигурации для ns02 сервера"
+  template:
+    src: slave-named.conf.j2
+    dest:  /etc/named.conf
+    owner: root
+    group: named
+    mode: 0640
+  tags:
+    - ns02
+## Установка нужных прав доступа на каталог /etc/named
+- name: "Установка прав доступа на каталог"
+  file:
+    path: /etc/named/
+    state:  directory
+    owner:  root
+    group:  named
+    mode: 0770
+  tags:
+    - ns01
+    - ns02
+
+
+# Копирование файлов на клиентские машины
+## Копирование resolv файла
+- name: "Копирование resolv.conf  файла на клиентские машины"
+  copy:
+    src: client-resolv.conf
+    dest: /etc/resolv.conf
+    owner: root
+    group:  root
+    mode: 0644
+  tags:
+    - client
+    - client2
+## Копирование rndc.conf файла для управления с клиентской машины (192.168.50.15) днс сервером ns01
+- name: 'Copy rndc.conf files to "client"'
+  copy:
+    src:  rndc.conf
+    dest: /home/vagrant/rndc.conf
+    owner:  vagrant
+    group:  vagrant
+    mode: 0640
+  tags:
+    - client
+
+# Включение и запуск сервиса named на серверах ns01 и ns02
+## Конфигурирование systemd сервиса
+- name: "Включение и запуск сервера"
+  systemd:
+    name: named
+    state: started
+    enabled: yes
+  tags:
+    - ns01
+    - ns02
