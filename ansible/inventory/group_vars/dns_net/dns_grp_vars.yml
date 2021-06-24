@@ -11,6 +11,7 @@ dnf_install_all:
         - chrony
         - iptables-services
         - kbd
+        - tcpdump
 
 
 resolve_file: /etc/resolv.conf
